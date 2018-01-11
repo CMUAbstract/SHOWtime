@@ -1,0 +1,7 @@
+.*.swp
+.*.swo
+
+*.tar.xz
+src/
+pkg/
+SHOWtime/

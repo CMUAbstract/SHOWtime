@@ -1,0 +1,33 @@
+# Maintainer: Alexei Colin <ac@alexeicolin.com>
+
+pkgname=python-odroidshow
+
+pkgver=r23.2ee7764
+pkgrel=1
+pkgdesc='Library for writing to LCD display on ODROID Show 2 board'
+arch=('armv7h' 'aarch64' 'x86_64' 'i686')
+url='https://github.com/Matoking/SHOWtime.git'
+license=('custom:Unlicense')
+depends=('python' 'python-argparse' 'python-pillow')
+optdepends=('python-psutil: sysinfo tab',
+            'python-httplib2: site uptime tab',
+            'python-jsonrpclib-pelix: bitcoin tab')
+
+source=()
+md5sums=()
+
+prepare() {
+    ln -snf "$startdir/.." "${srcdir}/${pkgname}"
+}
+
+pkgver() {
+    cd "${srcdir}/${pkgname}"
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+    cd "${srcdir}/${pkgname}"
+    python setup.py install --root="$pkgdir"
+
+    install -Dm644 LICENSE.txt $pkgdir/usr/share/licenses/$pkgname/LICENSE
+}
